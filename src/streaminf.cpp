@@ -1,7 +1,13 @@
-
-
 #include "streaminf.h"
 
+/*
+Parse the attributes associated with a tag by first looking at the first letter
+of the attribute. This efficiently greatly reduces the search space. Next we
+search for the full attribute name. However, this only has to be done 1 or 2
+times on average. Once an attribute is identified its associated value is
+extracted and stored after converting it to a string, int, or double as
+necessary.
+*/
 StreamInf::StreamInf(const char *attributeList) {
   const char *attribute = attributeList;
   while (*attribute) {
