@@ -4,6 +4,11 @@
 #include "parse.h"
 #include "playlist.h"
 
+/*
+Determines what type of EXT-X-... tag this is, creates a new object using the
+appropriate class, and then hands off processing of the tag attributes to the
+newly created object.
+*/
 bool Parse::processExtXTag(const char *extXTag) {
   const char *attributeList = nullptr;
 
@@ -119,6 +124,10 @@ bool Parse::processExtXTag(const char *extXTag) {
   return false;
 }
 
+/*
+Does initial processing of a line from an HLS playlist and hands off additional
+processing to the appropriate function.
+*/
 void Parse::input(const char *tagLine) {
   assert(tagLine);
 
@@ -126,8 +135,9 @@ void Parse::input(const char *tagLine) {
     return;
   }
 
-  if (associateNextLine) {
-    lastStreamInf->uri = tagLine;
+  // STREAM-INF tags are followed by a URI
+  if (associateNextLine) {        // previous tag needs this line
+    lastStreamInf->uri = tagLine; // save URI in last tag
     associateNextLine = false;
     lastStreamInf = nullptr;
     return;
@@ -141,7 +151,7 @@ void Parse::input(const char *tagLine) {
   switch (*line) {
   case '-':
     if (*++line == 'X' && *++line == '-') {
-      associateNextLine = processExtXTag(++line);
+      associateNextLine = processExtXTag(++line); // e.g., EXT-X-STREAM-INF
     }
     break;
   case 'M':

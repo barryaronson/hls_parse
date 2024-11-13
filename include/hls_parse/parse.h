@@ -4,6 +4,11 @@
 
 #include "streaminf.h"
 
+/*! \class Parse
+    \brief Parses a single line from an HLS playlist.
+    \details Identifies the tag and sends the associated attributes to the
+   appropriate tag class for processing.
+*/
 class Parse {
 public:
   void input(const char *line);
