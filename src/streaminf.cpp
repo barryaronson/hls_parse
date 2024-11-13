@@ -79,7 +79,7 @@ StreamInf::StreamInf(const char *attributeList) {
         goto attributeError;
       }
       break;
-    case 'S': //
+    case 'S':
       if ((value = compareAttribute(attribute, "SCORE")) != nullptr) {
         score = getDouble(value);
       } else if ((value = compareAttribute(attribute, "STABLE-VARIANT-ID")) !=
@@ -104,7 +104,7 @@ StreamInf::StreamInf(const char *attributeList) {
         video = getQuotedString(value);
       } else if ((value = compareAttribute(attribute, "VIDEO-RANGE")) !=
                  nullptr) {
-        attribute = getVideoRange(value); // todo: map to // SDR, HLG or PQ
+        attribute = getVideoRange(value);
       } else {
         goto attributeError;
       }
