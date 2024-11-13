@@ -1,2 +1,2 @@
-# hls_parser
+# hls_parse
 Parses an HLS playlist.

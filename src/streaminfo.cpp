@@ -7,21 +7,22 @@ StreamInfo::StreamInfo(const char *attributeList) {
   while (*attribute) {
     const char *attributeEnd = strchr(attribute, '=');
     if (attributeEnd == nullptr) {
-      return; // todo throw exception
+      throw std::runtime_error("STREAM-INF attribute has no value");
     }
-    const size_t attributeLen = attributeEnd - attribute;
     const char *value = nullptr;
 
     switch (*attribute) {
     case 'A':
-      if ((value = compareAttribute(attribute, "AUDIO")) != nullptr) {
+      if ((value = compareAttribute(attribute, "ALLOWED-CPC")) != nullptr) {
         attribute = value;
-        std::cout << "AUDIO = " << getQuotedString(value) << std::endl;
+        allowedCPC = getQuotedString(value);
+      } else if ((value = compareAttribute(attribute, "AUDIO")) != nullptr) {
+        attribute = value;
+        audio = getQuotedString(value);
       } else if ((value = compareAttribute(attribute, "AVERAGE-BANDWIDTH")) !=
                  nullptr) {
         attribute = value;
-        std::cout << "AVERAGE-BANDWIDTH = " << getUnsignedLong(value)
-                  << std::endl;
+        averageBandwidth = getUnsignedLong(value);
       } else {
         goto attributeError;
       }
@@ -29,8 +30,7 @@ StreamInfo::StreamInfo(const char *attributeList) {
     case 'B':
       if ((value = compareAttribute(attribute, "BANDWIDTH")) != nullptr) {
         attribute = value;
-        unsigned long bandwidth = getUnsignedLong(attribute);
-        std::cout << "BANDWIDTH = " << bandwidth << std::endl;
+        bandwidth = getUnsignedLong(value);
       } else {
         goto attributeError;
       }
@@ -38,10 +38,10 @@ StreamInfo::StreamInfo(const char *attributeList) {
     case 'C':
       if ((value = compareAttribute(attribute, "CLOSED-CAPTIONS")) != nullptr) {
         attribute = value; // will be a quoted string or not quoted NONE
-        std::cout << "CLOSED-CAPTIONS = " << value << std::endl;
+        closedCaptions = getQuotedString(value);
       } else if ((value = compareAttribute(attribute, "CODECS")) != nullptr) {
         attribute = value;
-        std::cout << "CODECS = " << getQuotedString(value) << std::endl;
+        codecs = getQuotedString(value);
       } else {
         goto attributeError;
       }
@@ -49,34 +49,64 @@ StreamInfo::StreamInfo(const char *attributeList) {
     case 'F':
       if ((value = compareAttribute(attribute, "FRAME-RATE")) != nullptr) {
         attribute = value;
-        double framerate = getDouble(value);
-        std::cout << "FRAME-RATE = " << framerate << std::endl;
+        frameRate = getDouble(value);
       } else {
         goto attributeError;
       }
       break;
     case 'H':
-      attribute = getHDCPLevel(attribute);
-      break;
-    case 'R':
-      if (strncmp(attribute, "RESOLUTION", attributeLen) == 0) {
-        std::cout << "RESOLUTION" << std::endl;
-      } else {
-        // todo throw exception
+      if ((value = getHDCPLevel(attribute)) != nullptr) {
+        attribute = value;
+        // `getHDCPLevel()` sets level
       }
       break;
-    case 'S':
-      if (strncmp(attribute, "SUBTITLES", attributeLen) == 0) {
-        std::cout << "SUBTITLES" << std::endl;
+    case 'P':
+      if ((value = compareAttribute(attribute, "PATHWAY-ID")) != nullptr) {
+        attribute = value;
+        pathwayID = getQuotedString(attribute);
+      }
+      break;
+    case 'R':
+      if ((value = compareAttribute(attribute, "REQ-VIDEO-LAYOUT")) !=
+          nullptr) {
+        attribute = value;
+        reqVideoLayout = getQuotedString(attribute);
+      } else if ((value = compareAttribute(attribute, "RESOLUTION")) !=
+                 nullptr) {
+        attribute = value;
+        resolution = getQuotedString(attribute);
       } else {
-        // todo throw exception
+        goto attributeError;
+      }
+      break;
+    case 'S': //
+      if ((value = compareAttribute(attribute, "SCORE")) != nullptr) {
+        score = getDouble(value);
+      } else if ((value = compareAttribute(attribute, "STABLE-VARIANT-ID")) !=
+                 nullptr) {
+        attribute = value;
+        stableVariantID = getQuotedString(value);
+      } else if ((value = compareAttribute(attribute, "SUBTITLES")) !=
+                 nullptr) {
+        attribute = value;
+        subtitles = getQuotedString(value);
+      } else if ((value = compareAttribute(attribute, "SUPPLEMENTAL-CODECS")) !=
+                 nullptr) {
+        attribute = value;
+        supplementalCodecs = getQuotedString(value);
+      } else {
+        goto attributeError;
       }
       break;
     case 'V':
-      if (strncmp(attribute, "VIDEO", attributeLen) == 0) {
-        std::cout << "VIDEO" << std::endl;
+      if ((value = compareAttribute(attribute, "VIDEO")) != nullptr) {
+        attribute = value;
+        video = getQuotedString(value);
+      } else if ((value = compareAttribute(attribute, "VIDEO-RANGE")) !=
+                 nullptr) {
+        attribute = getVideoRange(value); // todo: map to // SDR, HLG or PQ
       } else {
-        // todo throw exception
+        goto attributeError;
       }
       break;
     attributeError:
@@ -84,7 +114,7 @@ StreamInfo::StreamInfo(const char *attributeList) {
       break;
     }
 
-    if ((attribute = strchr(attribute, ',')) == nullptr || *attribute == '\0') {
+    if ((attribute = strchr(attribute, ',')) == nullptr) {
       return;
     }
     ++attribute; // skip ','
@@ -103,7 +133,7 @@ const char *StreamInfo::getHDCPLevel(const char *attribute) {
 
       if (strncmp(value, None, NoneLen) == 0) {
         attribute = value + NoneLen;
-        std::cout << "HDCP-LEVEL = " << None << std::endl;
+        hdcpLevel = NONE;
         break;
       } else {
         goto attributeError;
@@ -140,6 +170,55 @@ const char *StreamInfo::getHDCPLevel(const char *attribute) {
   return attribute;
 
 attributeError:
-  throw std::runtime_error("Bad HDCP-LEVEL attribute.");
+  throw std::runtime_error("Bad HDCP-LEVEL value.");
+  return nullptr;
+}
+
+const char *StreamInfo::getVideoRange(const char *attribute) {
+  const char *value = attribute;
+
+  switch (*value) {
+  case 'S': {
+    const char *sdr = "SDR";
+    const size_t sdrLen = 3;
+
+    if (strncmp(value, sdr, sdrLen) == 0) {
+      attribute = value + sdrLen;
+      videoRange = SDR;
+      break;
+    } else {
+      goto attributeError;
+    }
+  }
+  case 'H': {
+    const char *hlg = "HLG";
+    const size_t hlgLen = 3;
+
+    if (strncmp(value, hlg, hlgLen) == 0) {
+      attribute = value + hlgLen;
+      videoRange = HLG;
+      break;
+    } else {
+      goto attributeError;
+    }
+  }
+  case 'P': {
+    const char *pq = "PQ";
+    const size_t pqLen = 2;
+
+    if (strncmp(value, pq, pqLen) == 0) {
+      attribute = value + pqLen;
+      videoRange = PQ;
+      break;
+    } else {
+      goto attributeError;
+    }
+  }
+  }
+
+  return attribute;
+
+attributeError:
+  throw std::runtime_error("Bad VIDEO-RANGE value.");
   return nullptr;
 }

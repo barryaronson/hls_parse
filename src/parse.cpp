@@ -127,7 +127,7 @@ void Parse::input(const char *tagLine) {
   }
 
   if (associateNextLine) {
-    lastStreamInfo->setURI(tagLine);
+    lastStreamInfo->uri = tagLine;
     associateNextLine = false;
     lastStreamInfo = nullptr;
     return;

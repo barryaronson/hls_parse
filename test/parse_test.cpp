@@ -4,7 +4,7 @@
 namespace {
 
 /*
-Tokenize a simple pseudo HLS line with a tag and its attributes
+Parse a simple pseudo HLS line with a tag and its attributes
 */
 TEST(Parse, Generic) {
   const char *line =
@@ -13,18 +13,6 @@ TEST(Parse, Generic) {
       "RANGE=PQ,AUDIO=\"aac-128k\",CLOSED-CAPTIONS=NONE";
   Parse parse;
   parse.input(line);
-#if 0
-  std::vector<std::string> expectedTokens = {"tag", "attribute1", "1",
-                                             "attribute2", "2"};
-
-  auto expected = expectedTokens.begin();
-  for (auto token = parse.begin(); token != tokenizer.end(); ++token) {
-    EXPECT_FALSE(expected == expectedTokens.end());
-    EXPECT_EQ((*expected),
-              (*token)); // check that each token matches what is expected
-    ++expected;
-  }
-#endif
   EXPECT_TRUE(1 == 1);
 }
 

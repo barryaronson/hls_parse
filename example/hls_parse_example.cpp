@@ -2,7 +2,6 @@
 
 #include "parse.h"
 #include "playlist.h"
-// #include "tokenize.h"
 
 int main(int argc, const char *argv[]) {
   if (argc < 2) {
