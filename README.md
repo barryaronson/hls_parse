@@ -27,3 +27,27 @@ To run it:
 Or
 
 `./example/hls_parse_example -help`
+
+Implementation Notes
+
+The `Playlist` class was adapted from a different project.
+
+Traditionally, input is split into tokens before parsing. This could have
+been done using std::regex. However, attribute values of quoted strings
+with multiple comma separated items would have been split into separate
+tokens. This could have been handled by reading tokens until a know attribute
+name was found and pushing that back. However, this approach would also mean
+having to copy the string array to an std::string object. Also, tag and
+attribute identifiers would have to have been compared to known values.
+
+The approach chosen uses the first letter of a tag or attribute to narrow
+the search and then does a string comparison to fully identify the tag or
+attribute. Usually, there is only one to three identifiers per first letter.
+Finding tokens and parsing is done in one pass.
+
+Tags are represented by individual classes. Within each tag class are
+programmatically useable attribute values (e.g., integer are converted
+from strings and stored as integers). The attribute values are public
+to reduce code clutter. This is fairly safe as they are unlikely to
+change (given that this is based on an RFC) and clearly should not
+be written to by consumers.
