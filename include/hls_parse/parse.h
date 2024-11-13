@@ -1,23 +1,21 @@
 #pragma once
 
-#include "streaminfo.h"
+#include <vector>
+
+#include "streaminf.h"
 
 class Parse {
 public:
-  ~Parse() {
-    if (lastStreamInfo) {
-      delete lastStreamInfo;
-    }
-  }
   void input(const char *line);
   bool EXTM3UPresent() { return EXTM3U; }
+  std::vector<StreamInf *> streamInfList;
 
 private:
   bool EXTM3U = false;
   bool associateNextLine = false;
   static constexpr int tagIdentLen = 4;
   static constexpr const char *tagIdent = "#EXT";
-  StreamInfo *lastStreamInfo = nullptr;
+  StreamInf *lastStreamInf = nullptr;
   int version = 1;
 
   const char *isTag(const char *line) {

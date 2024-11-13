@@ -5,9 +5,9 @@
 
 #include "tag.h"
 
-class StreamInfo : public Tag {
+class StreamInf : public Tag {
 public:
-  StreamInfo(const char *attributeList);
+  StreamInf(const char *attributeList);
   enum HDCPLevel { TYPE_0, TYPE_1, NONE };
   enum VideoRange { SDR, HLG, PQ };
   const char *getHDCPLevel(const char *attribute);

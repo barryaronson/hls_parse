@@ -1,8 +1,8 @@
 
 
-#include "streaminfo.h"
+#include "streaminf.h"
 
-StreamInfo::StreamInfo(const char *attributeList) {
+StreamInf::StreamInf(const char *attributeList) {
   const char *attribute = attributeList;
   while (*attribute) {
     const char *attributeEnd = strchr(attribute, '=');
@@ -121,7 +121,7 @@ StreamInfo::StreamInfo(const char *attributeList) {
   }
 }
 
-const char *StreamInfo::getHDCPLevel(const char *attribute) {
+const char *StreamInf::getHDCPLevel(const char *attribute) {
   const char *value = compareAttribute(attribute, "HDCP-LEVEL");
 
   if (value != nullptr) {
@@ -174,7 +174,7 @@ attributeError:
   return nullptr;
 }
 
-const char *StreamInfo::getVideoRange(const char *attribute) {
+const char *StreamInf::getVideoRange(const char *attribute) {
   const char *value = attribute;
 
   switch (*value) {

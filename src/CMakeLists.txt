@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(MY_SOURCES
 	parse.cpp
 	parse.cpp
-	streaminfo.cpp
+	streaminf.cpp
 	tag.cpp 
 	playlist.cpp
 )
