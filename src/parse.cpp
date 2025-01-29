@@ -15,28 +15,33 @@ bool Parse::processExtXTag(const char *extXTag) {
   switch (*extXTag) {
   case 'B':
     if ((attributeList = compareTag(extXTag, "BYTERANGE")) != nullptr) {
-      // todo std::cout << "BYTERANGE = " << attributeList << std::endl;
+      // todo
+      std::cout << "BYTERANGE = " << attributeList << std::endl;
     } else {
       goto tagError;
     }
     break;
   case 'D':
     if ((attributeList = compareTag(extXTag, "DATERANGE")) != nullptr) {
-      // todo std::cout << "DATERANGE = " << attributeList << std::endl;
+      // todo
+      std::cout << "DATERANGE = " << attributeList << std::endl;
     } else if ((attributeList = compareTag(extXTag, "DISCONTINUITY")) ==
                nullptr) { // no attributes
-      // todo std::cout << "DISCONTINUITY = " << attributeList << std::endl;
+      // todo
+      std::cout << "DISCONTINUITY = " << attributeList << std::endl;
     } else if ((attributeList =
                     compareTag(extXTag, "DISCONTINUITY-SEQUENCE")) != nullptr) {
-      // todo std::cout << "DISCONTINUITY-SEQUENCE = " << attributeList <<
-      // std::endl;
+      // todo
+      std::cout << "DISCONTINUITY-SEQUENCE = " << attributeList <<
+      std::endl;
     } else {
       goto tagError;
     }
     break;
   case 'E':
     if ((attributeList = compareTag(extXTag, "ENDLIST")) == nullptr) {
-      // todo std::cout << "ENDLIST = " << attributeList << std::endl;
+      // todo
+      std::cout << "ENDLIST = " << attributeList << std::endl;
     } else {
       goto tagError;
     }
@@ -44,14 +49,17 @@ bool Parse::processExtXTag(const char *extXTag) {
   case 'I':
     if ((attributeList = compareTag(extXTag, "I-FRAME-STREAM-INF")) !=
         nullptr) {
-      // todo std::cout << "I-FRAME-STREAM-INF = " << attributeList <<
-      // std::endl;
+      // todo
+      std::cout << "I-FRAME-STREAM-INF = " << attributeList <<
+      std::endl;
     } else if ((attributeList = compareTag(extXTag, "I-FRAMES-ONLY")) ==
                nullptr) {
-      // todo std::cout << "I-FRAMES-ONLY" << std::endl;
+      // todo
+      std::cout << "I-FRAMES-ONLY" << std::endl;
     } else if ((attributeList = compareTag(extXTag, "INDEPENDENT-SEGMENTS")) ==
                nullptr) { // no attributes
-      // todo std::cout << "INDEPENDENT-SEGMENTS" << std::endl;
+      // todo
+      std::cout << "INDEPENDENT-SEGMENTS" << std::endl;
     } else {
       goto tagError;
     }
@@ -77,10 +85,12 @@ bool Parse::processExtXTag(const char *extXTag) {
     break;
   case 'P':
     if ((attributeList = compareTag(extXTag, "PLAYLIST-TYPE")) != nullptr) {
-      // todo std::cout << "PLAYLIST-TYPE" << std::endl;
+      // todo
+      std::cout << "PLAYLIST-TYPE" << std::endl;
     } else if ((attributeList = compareTag(extXTag, "PROGRAM-DATE-TIME")) !=
                nullptr) {
-      // todo std::cout << "PROGRAM-DATE-TIME = " << attributeList << std::endl;
+      // todo
+      std::cout << "PROGRAM-DATE-TIME = " << attributeList << std::endl;
     } else {
       goto tagError;
     }
@@ -88,30 +98,36 @@ bool Parse::processExtXTag(const char *extXTag) {
   case 'S':
     if ((attributeList = compareTag(extXTag, "STREAM-INF")) != nullptr) {
       StreamInf *si = lastStreamInf = new StreamInf(attributeList);
-      streamInfList.push_back(si);
+      // todo
+      std::cout << "STREAM-INF = " << attributeList << std::endl;
       return true;
     } else if ((attributeList = compareTag(extXTag, "SESSION-DATA")) !=
                nullptr) {
-      // todo std::cout << "SESSION-DATA = " << attributeList << std::endl;
+      // todo
+      std::cout << "SESSION-DATA = " << attributeList << std::endl;
     } else if ((attributeList = compareTag(extXTag, "SESSION-KEY")) !=
                nullptr) {
-      // todo std::cout << "SESSION-KEY = " << attributeList << std::endl;
+      // todo
+      std::cout << "SESSION-KEY = " << attributeList << std::endl;
     } else if ((attributeList = compareTag(extXTag, "START")) != nullptr) {
-      // todo std::cout << "START = " << attributeList << std::endl;
+      // todo
+      std::cout << "START = " << attributeList << std::endl;
     } else {
       goto tagError;
     }
     break;
   case 'T':
     if ((attributeList = compareTag(extXTag, "TARGETDURATION")) != nullptr) {
-      // todo std::cout << "TARGETDURATION = " << attributeList << std::endl;
+      // todo
+      std::cout << "TARGETDURATION = " << attributeList << std::endl;
     } else {
       goto tagError;
     }
     break;
   case 'V':
     if ((attributeList = compareTag(extXTag, "VERSION")) != nullptr) {
-      // todo std::cout << "VERSION = " << attributeList << std::endl;
+      // todo
+      std::cout << "VERSION = " << attributeList << std::endl;
     } else {
       goto tagError;
     }
@@ -161,7 +177,8 @@ void Parse::input(const char *tagLine) {
     break;
   case 'I':
     if (*++line == 'N' && *++line == 'F') {
-      // todo std::cout << "INF tag\n";
+      // todo
+      std::cout << "INF tag\n";
     }
     break;
   }

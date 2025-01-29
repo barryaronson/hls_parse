@@ -4,40 +4,10 @@
 #include "parse.h"
 #include "playlist.h"
 
-class ParseUtility : public Parse {
-public:
-  void printStreamInf();
-  void sortStreamInfByBandwidth(bool ascending = true);
-};
-
-void ParseUtility::printStreamInf() {
-  for (auto si : streamInfList) {
-    std::cout << "#EXT-X-STREAM-INF: " << "BANDWIDTH = " << si->bandwidth
-              << std::endl;
-  }
-}
-
-void ParseUtility::sortStreamInfByBandwidth(bool ascending) {
-  std::function<bool(StreamInf *, StreamInf *)> bandwidthComp;
-
-  if (ascending) {
-    bandwidthComp = [](StreamInf *a, StreamInf *b) {
-      return a->bandwidth < b->bandwidth;
-    };
-  } else {
-    bandwidthComp = [](StreamInf *a, StreamInf *b) {
-      return a->bandwidth > b->bandwidth;
-    };
-  }
-
-  std::sort(streamInfList.begin(), streamInfList.end(), bandwidthComp);
-}
-
 void help() {
   std::cout << "Usage: hls_parse_example [OPTION]... [FILE]\n"
             << "Parse HLS playlist FILE and sort EXT-X-STREAM-INF tags by "
                "BANDWIDTH attribute value.\n\n"
-            << "  -r, --reverse     sort by descending order\n"
             << "  -h, --help        print help\n";
 }
 
@@ -61,7 +31,7 @@ int main(int argc, const char *argv[]) {
   }
 
   try {
-    ParseUtility parse;
+    Parse parse;
     Playlist pl(argv[fileNameIndex]);
 
     // make sure this is an HLS playlist
@@ -77,9 +47,6 @@ int main(int argc, const char *argv[]) {
       pl.readLine();
       parse.input((char *)pl);
     }
-
-    parse.sortStreamInfByBandwidth(ascending);
-    parse.printStreamInf();
 
   } catch (std::runtime_error &err) {
     std::cerr << err.what() << std::endl;
