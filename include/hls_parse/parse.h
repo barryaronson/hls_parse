@@ -13,7 +13,6 @@ class Parse {
 public:
   void input(const char *line);
   bool EXTM3UPresent() { return EXTM3U; }
-  std::vector<StreamInf *> streamInfList;
 
 private:
   bool EXTM3U = false;
