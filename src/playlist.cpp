@@ -1,3 +1,5 @@
+#include <curl/curl.h>
+#include <filesystem>
 
 #include "playlist.h"
 
@@ -49,4 +51,57 @@ std::string Playlist::readLine() {
   } while (1);
 
   return std::string(readBuffer);
+}
+
+size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) {
+    return fwrite(ptr, size, nmemb, stream);
+}
+
+std::string createFileFromURL(const char *url, const char *path) {
+    std::filesystem::path urlPath = url;
+
+    if (urlPath.extension() != ".m3u8") {
+        throw std::runtime_error("Not an m3u8 file");
+    }
+
+    // return `url` unchanged if it doesn't point to a web server
+    const auto urlBegin = urlPath.begin();
+    if (!(*urlBegin == "https:" || *urlBegin == "http:")) {
+        return url;
+    }
+
+    // otherwise, fetch the `url` and save it as a file
+
+    // create the output file name and path
+    std::filesystem::path filePath = path;
+    filePath += '/';
+    filePath += urlPath.filename();
+
+    // create the output file
+    FILE *fp = fopen(filePath.c_str(), "w");
+    if (fp == nullptr) {
+        throw std::runtime_error("Error creating output file");
+    }
+
+    // download the file
+    CURL *curl = curl_easy_init(); // TODO: curl_global_init
+    if (curl == nullptr) {
+        filePath = "";
+    } else {
+        if (curl_easy_setopt(curl, CURLOPT_URL, url) != CURLE_OK ||
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data) != CURLE_OK ||
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp) != CURLE_OK ||
+            curl_easy_perform(curl) != CURLE_OK) { // download the .m3u8 file
+            filePath = "";
+        }
+        curl_easy_cleanup(curl);
+    }
+
+    fclose(fp);
+
+    if (filePath == "") {
+        throw std::runtime_error("curl error");
+    }
+
+    return filePath; // prexisting file or newly created file from download
 }

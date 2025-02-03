@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title></title>
+<link rel="canonical" href="http://walterebert.com/playground/video/hls/sintel-trailer.m3u8/" class="u-uid">
+<style>html {background: #eee; color: #333;}
+body {font: 1em/1.5 Source Sans Pro, Droid Sans, Optima, Trebuchet MS,sans-serif; margin: 0; padding: 0;}
+pre,code, style.code {color: #555; font-family: Inconsolata,Source Code Pro,Andale Mono,monospace;}
+pre code, style.code {background: #333; color: #eee; display: block; line-height: 1.2; overflow-x: auto; padding: 1em;}
+style.code {display: block; white-space: pre;}
+h1,h2,h3,h4,h5,h6 {line-height: 1.125;}
+h1:first-of-type {margin-top: 0;}
+a {color: #070; text-decoration: underline; text-decoration-color: #bcb; -webkit-text-decoration-skip-ink: none; text-decoration-skip-ink: none; text-decoration-thickness: 1px;}
+a:visited {color: #575;}
+a:hover {color: #555; text-decoration-color: #ccc; }
+table {border-collapse: collapse; border-spacing: 0; overflow-x: auto;}
+caption {font-size: 1.4em; line-height: 2em; text-align: left;}
+th {font-style: normal; font-weight: bold; text-align: left;}
+th,td {padding-right: .5em;}
+th:last-child,td:last-child {padding-right: 0;}
+li {line-height: 1.75;}
+img,video,object,embed {height: auto; max-width: 100%;}
+video,pre {min-width: 240px;}
+pre {overflow-x: auto;}
+.no-border {border: 0;}
+#content, #playground-content {background: #fff; padding: 1em 1em 4em;}
+#playground-footer {background: #eee; background-image: linear-gradient(#ddd, #eee 8px); border: 0; border-top: 1px solid #ccc;margin: 0; padding: 1em;}
+#playground-footer .copyright {text-transform: lowercase;}
+#playground-footer ul {display: flex; list-style-type: ""; margin-top: 0; padding: 0;}
+#playground-footer li span {padding: 0 .25em;}
+@media screen and (min-width:481px) {
+	h1,h2,h3,h4,h5,h6 {line-height: 1.5;}
+}
+</style>
+</head>
+<body>
+<div id="playground-container">
+<main id="content" class="h-entry">
+<main class="http404">
+
+<h1>Oops! Nothing here yet.</h1>
+
+<p>Maybe you could start on the <a href="">homepage</a>.
+
+</main>
+
+
+</main>
+
+<footer id="playground-footer">
+	<nav>
+		<ul>
+			<li class="copyright">&copy; 2005 - 2025 <a class="p-author h-card" href="https://walterebert.com/">Walter Ebert</a>
+			<li><span aria-hidden="true">-</span><a href="/">home</a>
+			<li><span aria-hidden="true">-</span><a href="/playground/">playground overview</a>
+			<li><span aria-hidden="true">-</span><a href="/colophon/" rel="nofollow">colophon</a>
+			<li><span aria-hidden="true">-</span><a href="/privacy/" rel="nofollow">privacy</a>
+		</ul>
+	</nav>
+</footer>
+
+</div><!-- #playground-container -->

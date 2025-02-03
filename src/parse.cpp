@@ -3,6 +3,7 @@
 
 #include "parse.h"
 #include "playlist.h"
+#include "byterange.h"
 
 /*
 Determines what type of EXT-X-... tag this is, creates a new object using the
@@ -15,8 +16,7 @@ bool Parse::processExtXTag(const char *extXTag) {
   switch (*extXTag) {
   case 'B':
     if ((attributeList = compareTag(extXTag, "BYTERANGE")) != nullptr) {
-      // todo
-      std::cout << "BYTERANGE = " << attributeList << std::endl;
+      byteRange.emplace(attributeList);
     } else {
       goto tagError;
     }
@@ -97,9 +97,7 @@ bool Parse::processExtXTag(const char *extXTag) {
     break;
   case 'S':
     if ((attributeList = compareTag(extXTag, "STREAM-INF")) != nullptr) {
-      StreamInf *si = lastStreamInf = new StreamInf(attributeList);
-      // todo
-      std::cout << "STREAM-INF = " << attributeList << std::endl;
+      streamInf.emplace(attributeList);
       return true;
     } else if ((attributeList = compareTag(extXTag, "SESSION-DATA")) !=
                nullptr) {
@@ -152,10 +150,9 @@ void Parse::input(const char *tagLine) {
   }
 
   // STREAM-INF tags are followed by a URI
-  if (associateNextLine) {        // previous tag needs this line
-    lastStreamInf->uri = tagLine; // save URI in last tag
+  if (associateNextLine) {          // previous tag needs this line
+    streamInf.back().uri = tagLine; // save URI in last tag
     associateNextLine = false;
-    lastStreamInf = nullptr;
     return;
   }
 

@@ -24,12 +24,6 @@ int main(int argc, const char *argv[]) {
     return EXIT_SUCCESS;
   }
 
-  bool ascending = true;
-  if (strcmp(argv[1], "-r") == 0 || strcmp(argv[1], "--reverse") == 0) {
-    ascending = false;
-    fileNameIndex = 2;
-  }
-
   try {
     Parse parse;
     Playlist pl(argv[fileNameIndex]);
@@ -47,6 +41,7 @@ int main(int argc, const char *argv[]) {
       pl.readLine();
       parse.input((char *)pl);
     }
+    parse.printStreamInf();
 
   } catch (std::runtime_error &err) {
     std::cerr << err.what() << std::endl;

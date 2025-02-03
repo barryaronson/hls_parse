@@ -1,7 +1,9 @@
 #pragma once
 
+#include <queue>
 #include <vector>
 
+#include "byterange.h"
 #include "streaminf.h"
 
 /*! \class Parse
@@ -13,14 +15,17 @@ class Parse {
 public:
   void input(const char *line);
   bool EXTM3UPresent() { return EXTM3U; }
+  void printStreamInf() { while (streamInf.size() > 0) { StreamInf &front = streamInf.front(); std::cout << front.uri << std::endl; streamInf.pop(); }}
 
 private:
   bool EXTM3U = false;
   bool associateNextLine = false;
   static constexpr int tagIdentLen = 4;
   static constexpr const char *tagIdent = "#EXT";
-  StreamInf *lastStreamInf = nullptr;
   int version = 1;
+
+  std::queue<ByteRange> byteRange;
+  std::queue<StreamInf> streamInf;
 
   const char *isTag(const char *line) {
     return (strncmp(line, tagIdent, tagIdentLen) == 0) ? line + tagIdentLen

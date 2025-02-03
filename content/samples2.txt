@@ -1,0 +1,9 @@
+https://assets.afcdn.com/video49/20210722/v_645516.m3u8
+https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8
+https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8
+https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.mp4/.m3u8
+https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8
+https://moctobpltc-i.akamaihd.net/hls/live/571329/eight/playlist.m3u8
+http://d3rlna7iyyu8wu.cloudfront.net/skip_armstrong/skip_armstrong_stereo_subs.m3u8
+http://d3rlna7iyyu8wu.cloudfront.net/skip_armstrong/skip_armstrong_multichannel_subs.m3u8
+https://developer.apple.com/streaming/examples/advanced-stream-ts.html

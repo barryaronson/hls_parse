@@ -17,8 +17,8 @@ public:
   enum VideoRange { SDR, HLG, PQ };
 
   std::string uri;
-  unsigned long bandwidth = 0;
-  unsigned long averageBandwidth = 0;
+  unsigned long long bandwidth = 0;
+  unsigned long long averageBandwidth = 0;
   double score = 0.0;
   std::string codecs;
   std::string supplementalCodecs;

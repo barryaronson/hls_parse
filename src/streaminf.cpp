@@ -9,6 +9,8 @@ extracted and stored after converting it to a string, int, or double as
 necessary.
 */
 StreamInf::StreamInf(const char *attributeList) {
+  std::cout << "STREAM-INF = " << attributeList << std::endl;
+
   const char *attribute = attributeList;
   while (*attribute) {
     const char *attributeEnd = strchr(attribute, '=');

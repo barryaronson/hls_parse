@@ -10,7 +10,7 @@ const char *compareIdentifier(const char *input, const char *identifier,
 class Tag {
 public:
   std::string getQuotedString(const char *str);
-  unsigned long getUnsignedLong(const char *str) { return atoll(str); }
+  unsigned long long getUnsignedLong(const char *str) { return atoll(str); }
   double getDouble(const char *str) { return atof(str); }
   const char *compareAttribute(const char *input, const char *attribute) {
     return compareIdentifier(input, attribute, AttributeSep);

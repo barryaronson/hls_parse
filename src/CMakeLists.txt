@@ -7,14 +7,14 @@ project(hls_parse)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(MY_SOURCES
+	byterange.cpp
 	parse.cpp
-	parse.cpp
+	playlist.cpp
 	streaminf.cpp
 	tag.cpp 
-	playlist.cpp
 )
 
-# Add the source files for the library${CMAKE_SOURCE_DIR}/src/
+# Add the source files for the library
 add_library(hls_parse ${MY_SOURCES})
 message(CMAKE_SOURCE_DIR="${CMAKE_SOURCE_DIR}")
 
