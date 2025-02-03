@@ -11,6 +11,7 @@ class Playlist : public std::ifstream {
 public:
   Playlist(const char *fileName, size_t initialBufferSize = 512);
   ~Playlist();
+  static std::string createFileFromURL(const char *url, const char *path);
   /*! \brief Reads the current line from the playlist and advances to next line.
       \return The current line in the playlist
       \details All lines continued with a `\` are concatenated into a single

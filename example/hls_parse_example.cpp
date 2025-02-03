@@ -5,9 +5,8 @@
 #include "playlist.h"
 
 void help() {
-  std::cout << "Usage: hls_parse_example [OPTION]... [FILE]\n"
-            << "Parse HLS playlist FILE and sort EXT-X-STREAM-INF tags by "
-               "BANDWIDTH attribute value.\n\n"
+  std::cout << "Usage: hls_parse_example [OPTION]... [FILE|URL]\n"
+            << "Parse HLS playlist FILE or URL.\n\n"
             << "  -h, --help        print help\n";
 }
 
@@ -17,7 +16,7 @@ int main(int argc, const char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  int fileNameIndex = 1;
+  constexpr int fileNameIndex = 1;
 
   if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0) {
     help();
@@ -25,8 +24,9 @@ int main(int argc, const char *argv[]) {
   }
 
   try {
+    std::string filePath = Playlist::createFileFromURL(argv[fileNameIndex], ".");
     Parse parse;
-    Playlist pl(argv[fileNameIndex]);
+    Playlist pl(filePath.c_str());
 
     // make sure this is an HLS playlist
     pl.readLine();

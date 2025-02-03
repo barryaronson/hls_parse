@@ -57,7 +57,7 @@ size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) {
     return fwrite(ptr, size, nmemb, stream);
 }
 
-std::string createFileFromURL(const char *url, const char *path) {
+std::string Playlist::createFileFromURL(const char *url, const char *path) {
     std::filesystem::path urlPath = url;
 
     if (urlPath.extension() != ".m3u8") {
@@ -80,7 +80,11 @@ std::string createFileFromURL(const char *url, const char *path) {
     // create the output file
     FILE *fp = fopen(filePath.c_str(), "w");
     if (fp == nullptr) {
-        throw std::runtime_error("Error creating output file");
+      std::string error = "Error creating output file: ";
+      error += filePath.c_str();
+      error += "\n";
+      error += std::strerror(errno);
+        throw std::runtime_error(error);
     }
 
     // download the file
