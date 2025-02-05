@@ -15,4 +15,6 @@ public:
   const char *compareAttribute(const char *input, const char *attribute) {
     return compareIdentifier(input, attribute, AttributeSep);
   }
+
+  std::string uri;
 };

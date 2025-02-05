@@ -24,6 +24,7 @@ private:
   static constexpr const char *tagIdent = "#EXT";
   int version = 1;
 
+  Tag *lastTag = nullptr;
   std::queue<ByteRange> byteRange;
   std::queue<StreamInf> streamInf;
 

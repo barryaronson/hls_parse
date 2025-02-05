@@ -4,14 +4,11 @@
 #include "byterange.h"
 
 ByteRange::ByteRange(const char *attribute) {
-  // length of sub-range
-  if ((attribute = strchr(attribute, ':')) == nullptr) {
-    throw std::runtime_error("BYTERANGE attribute has no value");
-  }
-  lengthSubRange = getUnsignedLong(++attribute); // skip ':'
+  std::cout << __FILE__ << '@' << __LINE__ << ": BYTERANGE attribute = " << attribute << std::endl;
 
-  // start of sub-range (optional)
-  if ((attribute = strchr(attribute, '@')) != nullptr) {
+  lengthSubRange = getUnsignedLong(attribute); // length of sub-range
+
+  if ((attribute = strchr(attribute, '@')) != nullptr) { // start of sub-range (optional)
     startSubRange = getUnsignedLong(++attribute); // skip '@'
   }
 }

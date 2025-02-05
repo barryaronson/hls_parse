@@ -16,7 +16,6 @@ public:
   enum HDCPLevel { TYPE_0, TYPE_1, NONE };
   enum VideoRange { SDR, HLG, PQ };
 
-  std::string uri;
   unsigned long long bandwidth = 0;
   unsigned long long averageBandwidth = 0;
   double score = 0.0;

@@ -16,7 +16,10 @@ bool Parse::processExtXTag(const char *extXTag) {
   switch (*extXTag) {
   case 'B':
     if ((attributeList = compareTag(extXTag, "BYTERANGE")) != nullptr) {
+      std::cout << "parse.cpp@19:BYTERANGE:" << attributeList << std::endl; 
       byteRange.emplace(attributeList);
+      lastTag = &byteRange.back();
+      return true;
     } else {
       goto tagError;
     }
@@ -98,6 +101,7 @@ bool Parse::processExtXTag(const char *extXTag) {
   case 'S':
     if ((attributeList = compareTag(extXTag, "STREAM-INF")) != nullptr) {
       streamInf.emplace(attributeList);
+      lastTag = &streamInf.back();
       return true;
     } else if ((attributeList = compareTag(extXTag, "SESSION-DATA")) !=
                nullptr) {
@@ -149,16 +153,18 @@ void Parse::input(const char *tagLine) {
     return;
   }
 
-  // STREAM-INF tags are followed by a URI
+  // some tags are followed by a URI
   if (associateNextLine) {          // previous tag needs this line
-    streamInf.back().uri = tagLine; // save URI in last tag
+    lastTag->uri = tagLine; // save URI in last tag
     associateNextLine = false;
     return;
   }
 
   const char *line = isTag(tagLine);
   if (line == nullptr) {
-    throw std::runtime_error("Not a tag.");
+    std::string errorText = tagLine;
+    errorText += " is not a tag.";
+    throw std::runtime_error(errorText);
   }
 
   switch (*line) {
