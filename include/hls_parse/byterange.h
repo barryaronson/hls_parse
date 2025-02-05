@@ -8,7 +8,7 @@
 */
 class ByteRange : public Tag {
 public:
-  ByteRange(const char *attributeList);
+  ByteRange(const char *attribute);
 
   unsigned long long lengthSubRange = 0;
   unsigned long long startSubRange = 0;

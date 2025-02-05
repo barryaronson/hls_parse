@@ -3,23 +3,15 @@
 
 #include "byterange.h"
 
-ByteRange::ByteRange(const char *attributeList) {
-  const char *attribute = attributeList;
-
+ByteRange::ByteRange(const char *attribute) {
   // length of sub-range
-  const char *attributeEnd = strchr(attribute, ':');
-  if (attributeEnd == nullptr) {
-    throw std::runtime_error("STREAM-INF attribute has no value");
+  if ((attribute = strchr(attribute, ':')) == nullptr) {
+    throw std::runtime_error("BYTERANGE attribute has no value");
   }
-
-  attribute = ++attributeEnd; // skip ':'
-  lengthSubRange = getUnsignedLong(attribute);
+  lengthSubRange = getUnsignedLong(++attribute); // skip ':'
 
   // start of sub-range (optional)
-  attributeEnd = strchr(attribute, '@');
-
-  if (attributeEnd != nullptr) {
-    attribute = ++attributeEnd; // skip '@'
-    startSubRange = getUnsignedLong(attribute);
+  if ((attribute = strchr(attribute, '@')) != nullptr) {
+    startSubRange = getUnsignedLong(++attribute); // skip '@'
   }
 }
