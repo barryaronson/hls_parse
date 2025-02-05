@@ -10,6 +10,6 @@ class ByteRange : public Tag {
 public:
   ByteRange(const char *attributeList);
 
-    unsigned long long lengthSubRange;
-    unsigned long long startSubRange;
+  unsigned long long lengthSubRange = 0;
+  unsigned long long startSubRange = 0;
 };

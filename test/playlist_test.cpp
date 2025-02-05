@@ -26,7 +26,8 @@ TEST_F(PlaylistFile, BufferExpansion) {
 
   Playlist pl(tempFilename.c_str(),
               16); // 16 for a buffer size is too small for length of 'line'
-  std::string read = pl.readLine();
+  pl.readLine();
+  std::string read(pl);
 
   EXPECT_EQ(line, read);
 }
@@ -46,7 +47,8 @@ TEST_F(PlaylistFile, LineContinuation) {
 
   // read from the file
   Playlist pl(tempFilename.c_str());
-  std::string read = pl.readLine();
+  pl.readLine();
+  std::string read(pl);
   std::string lineShouldNowBe = line + line + line;
 
   // test that the continued line was concatenated
@@ -68,7 +70,8 @@ TEST_F(PlaylistFile, LineWithTrailingSpace) {
 
   // read the same line from the file
   Playlist pl(tempFilename.c_str());
-  std::string read = pl.readLine();
+  pl.readLine();
+  std::string read(pl);
 
   // test that the trailing spaces have be removed
   EXPECT_EQ(lineShouldBe, read);
@@ -89,7 +92,8 @@ TEST_F(PlaylistFile, LineWithCR) {
 
   // read the same line from the file
   Playlist pl(tempFilename.c_str());
-  std::string read = pl.readLine();
+  pl.readLine();
+  std::string read(pl);
 
   // test that the carriage return has been removed
   EXPECT_EQ(lineShouldBe, read);
@@ -117,10 +121,18 @@ TEST_F(PlaylistFile, MultipleLines) {
 
   // read each line and check against the original
   Playlist pl(tempFilename.c_str());
-  EXPECT_EQ(line1, pl.readLine());
-  EXPECT_EQ(line2, pl.readLine());
-  EXPECT_EQ(line3, pl.readLine());
-  EXPECT_EQ(line4, pl.readLine());
+
+  pl.readLine();
+  EXPECT_EQ(line1, std::string(pl));
+
+  pl.readLine();
+  EXPECT_EQ(line2, std::string(pl));
+
+  pl.readLine();
+  EXPECT_EQ(line3, std::string(pl));
+
+  pl.readLine();
+  EXPECT_EQ(line4, std::string(pl));
 }
 
 } // namespace

@@ -6,7 +6,7 @@ find_package(GTest REQUIRED)
 find_package(CURL REQUIRED)
 
 # Add source files
-add_executable(hls_parse_test main.cpp playlist_test.cpp parse_test.cpp)
+add_executable(hls_parse_test main.cpp playlist_test.cpp parse_test.cpp byterange_test.cpp)
 
 target_include_directories(hls_parse_test PRIVATE ${CMAKE_SOURCE_DIR}/include/hls_parse)
 

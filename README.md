@@ -8,17 +8,15 @@ https://github.com/barryaronson/hls_parse.git
 `git clone https://github.com/barryaronson/hls_parse.git`
 `cd hls_parse`
 
-It has been built and tested on Windows 10 using WSL-Ubuntu.
-It should also build and run in MacOS zsh or Linux bash.
+It has been built and tested on Windows 10 using WSL-Ubuntu and MacOS zsh.
 Starting in the `hls_parse` directory:
 
 `mkdir build`
 `cd build`
 `cmake -DCMAKE_BUILD_TYPE=Debug .. && make`
 
-The example program parses the playlist and sorts the STREAM-INF
-tags by the value of the BANDWIDTH attribute in ascending or
-descending order.
+The example program parses a playlist file stored locally or will download 
+one given a URL.
 
 To run it:
 
@@ -26,7 +24,7 @@ To run it:
 
 Or
 
-`./example/hls_parse_example -help`
+`./example/hls_parse_example --help`
 
 Implementation Notes
 
@@ -46,7 +44,7 @@ attribute. Usually, there is only one to three identifiers per first letter.
 Finding tokens and parsing is done in one pass.
 
 Tags are represented by individual classes. Within each tag class are
-programmatically useable attribute values (e.g., integer are converted
+programmatically useable attribute values (e.g., integers are converted
 from strings and stored as integers). The attribute values are public
 to reduce code clutter. This is fairly safe as they are unlikely to
 change (given that this is based on an RFC) and clearly should not
