@@ -41,7 +41,6 @@ int main(int argc, const char *argv[]) {
       pl.readLine();
       parse.input((char *)pl);
     }
-    parse.printStreamInf();
 
   } catch (std::runtime_error &err) {
     std::cerr << err.what() << std::endl;

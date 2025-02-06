@@ -10,16 +10,14 @@ Determines what type of EXT-X-... tag this is, creates a new object using the
 appropriate class, and then hands off processing of the tag attributes to the
 newly created object.
 */
-bool Parse::processExtXTag(const char *extXTag) {
+void Parse::processExtXTag(const char *extXTag) {
   const char *attributeList = nullptr;
 
   switch (*extXTag) {
   case 'B':
     if ((attributeList = compareTag(extXTag, "BYTERANGE")) != nullptr) {
-      std::cout << "parse.cpp@19:BYTERANGE:" << attributeList << std::endl; 
-      byteRange.emplace(attributeList);
-      lastTag = &byteRange.back();
-      return true;
+      ByteRange byteRange(attributeList); // todo
+      std::cout << __FILE__ << '@' << __LINE__ << ": " << attributeList << std::endl; 
     } else {
       goto tagError;
     }
@@ -100,9 +98,7 @@ bool Parse::processExtXTag(const char *extXTag) {
     break;
   case 'S':
     if ((attributeList = compareTag(extXTag, "STREAM-INF")) != nullptr) {
-      streamInf.emplace(attributeList);
-      lastTag = &streamInf.back();
-      return true;
+      StreamInf streamInf(attributeList); // todo
     } else if ((attributeList = compareTag(extXTag, "SESSION-DATA")) !=
                nullptr) {
       // todo
@@ -138,8 +134,6 @@ bool Parse::processExtXTag(const char *extXTag) {
   default:
     throw std::runtime_error("Bad tag.");
   }
-
-  return false;
 }
 
 /*
@@ -153,13 +147,6 @@ void Parse::input(const char *tagLine) {
     return;
   }
 
-  // some tags are followed by a URI
-  if (associateNextLine) {          // previous tag needs this line
-    lastTag->uri = tagLine; // save URI in last tag
-    associateNextLine = false;
-    return;
-  }
-
   const char *line = isTag(tagLine);
   if (line == nullptr) {
     std::string errorText = tagLine;
@@ -170,7 +157,7 @@ void Parse::input(const char *tagLine) {
   switch (*line) {
   case '-':
     if (*++line == 'X' && *++line == '-') {
-      associateNextLine = processExtXTag(++line); // e.g., EXT-X-STREAM-INF
+      processExtXTag(++line); // e.g., EXT-X-STREAM-INF
     }
     break;
   case 'M':
